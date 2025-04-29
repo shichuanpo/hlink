@@ -22,7 +22,8 @@ export interface IOptions extends Omit<IHlinkOptions, 'include' | 'exclude'> {
 const time = createTimeLog()
 async function hlink(options: IOptions) {
   const {
-    pathsMapping,
+    // pathsMapping,
+    pathsArray = [],
     openCache = false,
     mkdirIfSingle = true,
     keepDirStruct = true,
@@ -41,8 +42,7 @@ async function hlink(options: IOptions) {
   log.info('缓存:', chalk.magenta(openCache ? '已打开' : '已关闭'))
   log.info('保持原有目录结构:', chalk.magenta(keepDirStruct ? '是' : '否'))
   log.info('为独立文件创建文件夹:', chalk.magenta(mkdirIfSingle ? '是' : '否'))
-  console.log()
-  const sourcePaths = Object.keys(pathsMapping)
+  // const sourcePaths = Object.keys(pathsMapping)
 
   const waitLinkFiles: WaitLinks[] = []
   const excludeFiles = []
@@ -51,12 +51,12 @@ async function hlink(options: IOptions) {
   const parseResults = []
   time.start()
   log.info('任务开始!')
-  log.info(`共计 ${chalk.magenta(sourcePaths.length)} 个分析任务`)
+  log.info(`共计 ${chalk.magenta(pathsArray.length)} 个分析任务`)
   ;(
-    await asyncMap(sourcePaths, (source) => {
+    await asyncMap(pathsArray, (item: { source: string; target: string }) => {
       return analyse({
-        source,
-        dest: pathsMapping[source],
+        source: item.source,
+        dest: item.target,
         include,
         exclude,
         openCache,

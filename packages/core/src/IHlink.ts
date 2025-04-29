@@ -7,7 +7,11 @@ export namespace IHlink {
     /**
      * @description 原路径和目标路径的映射关系
      */
-    pathsMapping: Record<string, string>
+    pathsMapping?: Record<string, string>
+    pathsArray?: Array<{
+      source: string
+      target: string
+    }>
     /**
      * @description 包含
      */
