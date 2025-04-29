@@ -30,6 +30,8 @@
 由于不支持源文件硬链到多个目标目录（pathsMapping 为对象），所以本地修改为 pathsArray。
 其中 packages/cli/hlink.config.mjs 已修改。
 
+另外，由于 git 会频繁变动文件，且怀疑 ​​Git 更新文件时替换了 inode 导致硬链失效，所以新增了轮询监测逻辑，新添加配置文件 watchInterval，默认为 10000 毫秒，即 10 秒。
+
 ## 本地执行
 
 1. clone 项目并且本地打包
@@ -88,6 +90,7 @@
    * 可选值: true/false
    */
   mkdirIfSingle: false,
+  watchInterval: 10000,
 }
 ```
 

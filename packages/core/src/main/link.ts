@@ -38,6 +38,15 @@ async function link(
       const findError = knownError.find(
         (err: string) => (error.stderr || error.message).indexOf(err) > -1
       )
+      // 存在文件，直接删除
+      if (findError === 'File exists') {
+        await execa('rm', [
+          '-rf',
+          path.join(originalDestPath, path.basename(sourceFile)),
+        ])
+        await link(sourceFile, originalDestPath, source, dest)
+        return
+      }
       if (findError) {
         const errorCode = errorSuggestion[findError]
         throw new HLinkError(

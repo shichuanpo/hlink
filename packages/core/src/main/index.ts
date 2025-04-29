@@ -1,6 +1,7 @@
 import { IHlink } from '../IHlink.js'
 import formatConfig from '../config/format.js'
-import hlink from './hlink.js'
+// import hlink from './hlink.js'
+import hlinkDaemon from './hlink.js'
 
 export interface IOptions extends IHlink.Options {
   /**
@@ -18,7 +19,7 @@ export interface IOptions extends IHlink.Options {
 }
 
 async function main(options: IOptions) {
-  await hlink(await formatConfig(options))
+  await hlinkDaemon(await formatConfig(options))
 }
 
 export default main

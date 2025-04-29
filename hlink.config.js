@@ -63,4 +63,5 @@ export default {
    * 可选值: true/false
    */
   mkdirIfSingle: false,
+  watchInterval: 10000,
 }

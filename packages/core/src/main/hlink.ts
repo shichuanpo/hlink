@@ -18,6 +18,7 @@ import link from './link.js'
 export interface IOptions extends Omit<IHlinkOptions, 'include' | 'exclude'> {
   include: string[]
   exclude: string[]
+  watchInterval?: number
 }
 const time = createTimeLog()
 async function hlink(options: IOptions) {
@@ -149,4 +150,24 @@ async function hlink(options: IOptions) {
   }
 }
 
-export default hlink
+// 新增守护进程逻辑
+async function hlinkDaemon(options: IOptions) {
+  const watchInterval = options.watchInterval || 10000 // 10秒检查一次
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    const result = await hlink(options)
+
+    // 添加监测逻辑
+    if (result.waitLinkFiles.length > 0) {
+      log.info('检测到待处理文件，自动执行中...')
+    } else {
+      log.info(
+        `无待处理文件，持续监测中...（每${watchInterval / 1000}秒检查一次）`
+      )
+      // 添加10秒间隔检查
+      await new Promise((resolve) => setTimeout(resolve, watchInterval))
+    }
+  }
+}
+
+export default hlinkDaemon
