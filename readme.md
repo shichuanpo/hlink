@@ -35,7 +35,7 @@
 1. clone 项目并且本地打包
 
 ```bash
-  git clone 项目地址 （https://github.com/shichuanpo/hlink） // 或者 fork 后 clone 自己的仓库
+  git clone 项目地址 // 或者 fork 后 clone 自己的仓库
   cd hlink
   pnpm i
   pnpm run build
